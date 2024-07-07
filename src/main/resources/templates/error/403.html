@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <title>Access Denied</title>
     <style>
         body {
             display: flex;
@@ -28,10 +27,8 @@
 </head>
 <body>
 <div id="container">
-    <h1>Welcome to Index PAGE!</h1>
-    <form th:method="GET" th:action="@{/login}">
-        <input type="submit" value="Login"/>
-    </form>
+    <h2>Access Denied</h2>
+    <p>You do not have permission to access this page</p>
 </div>
 </body>
 </html>

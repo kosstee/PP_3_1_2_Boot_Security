@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new user</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            margin: 0;
+        }
+
+        div#container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        form#save {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form#save input[type="text"], form#save input[type="submit"] {
+            margin: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        h2 {
+            margin: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <h2>Create new user</h2>
+    <div>
+        <form id="save" th:method="POST" th:action="@{/admin/save-user}" th:object="${user}">
+            <label for="name">Enter name: </label>
+            <input type="text" th:field="*{name}" id="name"/>
+
+            <label for="login">Enter username: </label>
+            <input type="text" th:field="*{username}" id="login" required/>
+
+            <label for="password">Enter password: </label>
+            <input type="text" th:field="*{password}" id="password" required/>
+            <p>
+                <label>Roles:
+                    <input type="checkbox" name="roles"
+                           th:each="role : ${allRoles}"
+                           th:text="${role.role}"
+                           th:value="${role.id}"
+                           th:field="*{roles}"
+                    />
+                </label>
+            </p>
+            <p>
+                <label>Enabled:
+                    <input type="checkbox" name="enabled"
+                           th:value="${user.enabled}"
+                           th:field="*{enabled}"
+                    />
+                </label>
+            </p>
+            <input type="submit" value="Create"/>
+        </form>
+    </div>
+    <div>
+        <form id="home" th:method="GET" th:action="@{/admin/users}">
+            <input type="submit" value="Home page"/>
+        </form>
+    </div>
+    <form th:method="GET" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+</body>
+</html>

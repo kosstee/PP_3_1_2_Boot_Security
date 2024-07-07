@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title th:text="${user.getUsername()}"></title>
     <style>
         body {
             display: flex;
@@ -20,17 +21,18 @@
             width: 100%;
         }
 
-
-        h2 {
-            margin: 10px;
+        h3 {
+            margin: 5px;
         }
     </style>
 </head>
 <body>
 <div id="container">
-    <h1>Welcome to Index PAGE!</h1>
-    <form th:method="GET" th:action="@{/login}">
-        <input type="submit" value="Login"/>
+    <h2>Personal page</h2>
+    <h3>Login: <b th:text="${user.getUsername()}"></b></h3>
+    <h3>Name: <b th:text="${user.getName()}"></b></h3>
+    <form th:method="GET" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
     </form>
 </div>
 </body>

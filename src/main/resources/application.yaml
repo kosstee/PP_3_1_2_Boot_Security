@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kata
+    username: root
+    password: password
+  jpa:
+    show-sql: on
+    hibernate:
+      ddl-auto: create
+    open-in-view: off
+    defer-datasource-initialization: on
+  sql.init.mode: always
