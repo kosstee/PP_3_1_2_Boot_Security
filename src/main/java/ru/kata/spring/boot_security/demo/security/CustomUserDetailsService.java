@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.boot_security.demo.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("User not found");
         }
-        return user;
+        return new UserPrincipal(user);
     }
 }

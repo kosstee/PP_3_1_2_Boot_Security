@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.security.UserPrincipal;
 import ru.kata.spring.boot_security.demo.service.UsersService;
 
 import java.util.Objects;
@@ -22,9 +22,9 @@ public class UsersController {
 
     @GetMapping("/user")
     public String showUserInfo(@RequestParam("id") Long id, Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (!Objects.equals(user.getId(), id)) {
+        if (!Objects.equals(principal.getUser().getId(), id)) {
             return "/error/403";
         }
 

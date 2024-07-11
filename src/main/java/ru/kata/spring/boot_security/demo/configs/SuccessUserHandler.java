@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.security.UserPrincipal;
 
 import java.io.IOException;
 import java.util.Set;
@@ -20,11 +20,15 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        User user = (User) authentication.getPrincipal();
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+
         if (roles.contains("ROLE_ADMIN")) {
             httpServletResponse.sendRedirect("/admin/users");
-        } else {
-            httpServletResponse.sendRedirect("/users/user?id=" + user.getId());
+            return;
+        }
+
+        if (roles.contains("ROLE_USER")) {
+            httpServletResponse.sendRedirect("/users/user?id=" + principal.getUser().getId());
         }
     }
 }
