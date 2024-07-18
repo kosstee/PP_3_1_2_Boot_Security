@@ -20,16 +20,22 @@ public class DbInit {
     private void postConstruct() {
         User admin = new User(
                 "admin",
+                "Donald",
+                "Duck",
+                50,
+                "25cent@duckduck.go",
                 "admin",
-                "Mike",
                 true,
                 roleRepository.save(new Role("ROLE_ADMIN")));
         usersService.save(admin);
 
         User user = new User(
                 "user",
+                "Mickey",
+                "Mouse",
+                18,
+                "cheeser@mouse.go",
                 "user",
-                "Ivan",
                 true,
                 roleRepository.save(new Role("ROLE_USER")));
         usersService.save(user);

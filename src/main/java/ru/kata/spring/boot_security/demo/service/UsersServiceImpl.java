@@ -9,7 +9,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -42,16 +41,14 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     @Override
     public void update(Long id, User user) {
-        userRepository.findById(id).ifPresent((u) -> {
-            if (!Objects.equals(user.getName(), u.getName())) {
-                u.setName(user.getName());
+        userRepository.findById(id).ifPresent(existingUser -> {
+            if (user.getPassword().isBlank()) {
+                user.setPassword(existingUser.getPassword());
+            } else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
-            if (user.getPassword() != null) {
-                u.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
-            if (!Objects.equals(user.isEnabled(), u.isEnabled())) {
-                u.setEnabled(user.isEnabled());
-            }
+
+            userRepository.save(user);
         });
     }
 

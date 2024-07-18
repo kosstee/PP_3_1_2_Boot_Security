@@ -1,34 +1,20 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.security.UserPrincipal;
-import ru.kata.spring.boot_security.demo.service.UsersService;
-
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/users")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UsersController {
 
-    private final UsersService usersService;
-
     @GetMapping("/user")
-    public String showUserInfo(@RequestParam("id") Long id, Model model) {
+    public String showUserInfo(Model model) {
         UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (!Objects.equals(principal.getUser().getId(), id)) {
-            return "/error/403";
-        }
-
-        model.addAttribute("user", usersService.getUserById(id));
+        model.addAttribute("authorizedUser", principal.getUser());
         return "user/user";
     }
 }

@@ -1,71 +1,89 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${user.getUsername()}"></title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 70vh;
-            margin: 0;
-        }
-
-        div#container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-
-        form#edit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        form#edit input[type="text"], form#edit input[type="submit"] {
-            margin: 5px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        h2, form#home, form#delete {
-            margin: 10px;
-        }
-
-        h3 {
-            margin: 5px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User information-page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div id="container">
-    <h2>Personal page</h2>
-    <h3>Login: <b th:text="${user.getUsername()}"></b></h3>
-    <h3>Name: <b th:text="${user.getName()}"></b></h3>
-    <div>
-        <form id="edit" th:method="GET" th:action="@{/admin/edit-user}">
-            <input type="hidden" name="id" th:value="${user.getId()}"/>
-            <input type="submit" value="Edit account"/>
-        </form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin/user}">User information-page</a>
+        <div class="d-flex">
+            <span class="navbar-text me-2" th:text="${authorizedUser.getUsername()}">Username</span>
+            <span class="navbar-text me-2">with roles: </span>
+            <th:block th:each="role : ${authorizedUser.getRoles()}">
+                <span class="navbar-text me-2" th:text="${role.getRole()}">[roles]</span>
+            </th:block>
+            <a class="btn btn-outline-light" th:href="@{/logout}">Logout</a>
+        </div>
     </div>
-    <div>
-        <form id="delete" th:method="POST" th:action="@{/admin/delete-user(id=${user.getId()})}">
-            <input type="submit" value="Delete account"/>
-        </form>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/admin/admin-panel}">
+                            Admin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/user}">
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">User information-page</h1>
+            </div>
+
+            <!-- About user -->
+            <div class="card mt-1">
+                <div class="bg-light border-bottom">
+                    <h5 class="h5 p-lg-3">About user</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Age</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Enabled</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${authorizedUser.getId()}"></td>
+                            <td th:text="${authorizedUser.getUsername()}"></td>
+                            <td th:text="${authorizedUser.getFirstName()}"></td>
+                            <td th:text="${authorizedUser.getLastName()}"></td>
+                            <td th:text="${authorizedUser.getAge()}"></td>
+                            <td th:text="${authorizedUser.getEmail()}"></td>
+                            <td th:text="${authorizedUser.getRolesAsString()}"></td>
+                            <th>
+                                <label class="form-check-label" for="enabledView"></label>
+                                <input type="checkbox" id="enabledView" name="enabled"
+                                       th:checked="${authorizedUser.enabled}" disabled/>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
     </div>
-    <div>
-        <form id="home" th:method="GET" th:action="@{/admin/users}">
-            <input type="submit" value="Home page"/>
-        </form>
-    </div>
-    <form th:method="GET" th:action="@{/logout}">
-        <input type="submit" value="Logout"/>
-    </form>
 </div>
 </body>
 </html>
