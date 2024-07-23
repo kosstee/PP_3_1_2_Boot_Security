@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class Role {
     @Column(name = "role", length = 50, nullable = false)
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     public Role(String role) {

@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.initialization;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -10,7 +9,7 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UsersService;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class DbInit {
 
     private final UsersService usersService;
@@ -18,6 +17,7 @@ public class DbInit {
 
     @PostConstruct
     private void postConstruct() {
+        Role roleAdmin = roleRepository.save(new Role("ROLE_ADMIN"));
         User admin = new User(
                 "admin",
                 "Donald",
@@ -26,9 +26,10 @@ public class DbInit {
                 "25cent@duckduck.go",
                 "admin",
                 true,
-                roleRepository.save(new Role("ROLE_ADMIN")));
+                roleAdmin);
         usersService.save(admin);
 
+        Role roleUser = roleRepository.save(new Role("ROLE_USER"));
         User user = new User(
                 "user",
                 "Mickey",
@@ -37,7 +38,7 @@ public class DbInit {
                 "cheeser@mouse.go",
                 "user",
                 true,
-                roleRepository.save(new Role("ROLE_USER")));
+                roleUser);
         usersService.save(user);
     }
 }

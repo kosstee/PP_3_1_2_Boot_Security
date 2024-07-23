@@ -10,7 +10,6 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -59,14 +58,6 @@ public class User {
         this.password = password;
         this.enabled = enabled;
         this.roles.add(role);
-    }
-
-    public String getRolesAsString() {
-        return roles.stream().map(Role::getRole).collect(Collectors.joining(","));
-    }
-
-    public String getRolesIdAsString() {
-        return roles.stream().map(r -> r.getId().toString()).collect(Collectors.joining(","));
     }
 
     @Override
