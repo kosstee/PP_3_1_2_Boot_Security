@@ -361,6 +361,10 @@
                 .catch(error => console.error('Error fetching user info:', error));
         }
 
+        function switchToUsersTableTab() {
+            $('#users-table-tab').tab('show');
+        }
+
         fetchAuthorizedUserInfo();
         fetchUsers();
         fetchRoles('rolesContainer');
@@ -493,9 +497,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert('User created successfully!');
                     fetchUsers();
                     form.reset();
+                    switchToUsersTableTab();
                 })
                 .catch(error => {
                     console.error('Error:', error);
